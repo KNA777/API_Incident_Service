@@ -1,0 +1,47 @@
+services:
+
+  back_incident_service:
+    build:
+      context: .
+    container_name: "incident_backend_container"
+    ports:
+      - "7777:8000"
+    networks:
+      - incident_network
+    environment:
+      DB_HOST: incident_db_container
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_NAME: db_incident
+    depends_on:
+      db_incident_service:
+        condition: service_healthy
+
+
+  db_incident_service:
+    image: postgres:17
+    container_name: "incident_db_container"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db_incident
+    ports:
+      - "6432:5432"
+    networks:
+      - incident_network
+    volumes:
+      - final_task_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d db_incident" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+networks:
+  incident_network:
+    driver: bridge
+
+volumes:
+  final_task_data:
