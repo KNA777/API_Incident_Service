@@ -24,7 +24,7 @@
 
 ```
 Смена статуса инцидента, фильтрация его по id
-http://127.0.0.1:8000/incident/3
+http://127.0.0.1:7777/incident/3
 
 {
   "description": "string",
@@ -42,7 +42,7 @@ http://127.0.0.1:8000/incident/3
 ```
 Вывод всех инцидентов по фильтру "статус todo"
 
-http://127.0.0.1:8000/incident/todo
+http://127.0.0.1:7777/incident/todo
 [
   {
     "description": "string",
